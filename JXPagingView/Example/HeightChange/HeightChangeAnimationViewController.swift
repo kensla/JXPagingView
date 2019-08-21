@@ -12,7 +12,11 @@ class HeightChangeAnimationViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.safeAreaInsets
+        if #available(iOS 11.0, *) {
+            self.view.safeAreaInsets
+        } else {
+            // Fallback on earlier versions
+        }
     }
 
     override func preferredTableHeaderView() -> PagingViewTableHeaderView {

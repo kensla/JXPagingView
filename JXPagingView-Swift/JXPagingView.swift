@@ -51,7 +51,7 @@ import UIKit
     ///
     /// - Parameter pagingView: JXPagingViewView
     /// - Returns: view
-    func tableHeaderView(in pagingView: JXPagingView) -> UIView
+    func tableHeaderView(in pagingView: JXPagingView) -> UIView?
 
 
     /// 返回悬浮HeaderView的高度，因为内部需要比对判断，只能是整型数
@@ -267,13 +267,18 @@ open class JXPagingView: UIView {
             return
         }
         let tableHeaderView = self.delegate!.tableHeaderView(in: self)
+        
+        guard tableHeaderView != nil else {
+            return
+        }
+        
         let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat(self.delegate!.tableHeaderViewHeight(in: self))))
-        containerView.addSubview(tableHeaderView)
-        tableHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        let top = NSLayoutConstraint(item: tableHeaderView, attribute: .top, relatedBy: .equal, toItem: containerView, attribute: .top, multiplier: 1, constant: 0)
-        let leading = NSLayoutConstraint(item: tableHeaderView, attribute: .leading, relatedBy: .equal, toItem: containerView, attribute: .leading, multiplier: 1, constant: 0)
-        let bottom = NSLayoutConstraint(item: tableHeaderView, attribute: .bottom, relatedBy: .equal, toItem: containerView, attribute: .bottom, multiplier: 1, constant: 0)
-        let trailing = NSLayoutConstraint(item: tableHeaderView, attribute: .trailing, relatedBy: .equal, toItem: containerView, attribute: .trailing, multiplier: 1, constant: 0)
+        containerView.addSubview(tableHeaderView!)
+        tableHeaderView!.translatesAutoresizingMaskIntoConstraints = false
+        let top = NSLayoutConstraint(item: tableHeaderView!, attribute: .top, relatedBy: .equal, toItem: containerView, attribute: .top, multiplier: 1, constant: 0)
+        let leading = NSLayoutConstraint(item: tableHeaderView!, attribute: .leading, relatedBy: .equal, toItem: containerView, attribute: .leading, multiplier: 1, constant: 0)
+        let bottom = NSLayoutConstraint(item: tableHeaderView!, attribute: .bottom, relatedBy: .equal, toItem: containerView, attribute: .bottom, multiplier: 1, constant: 0)
+        let trailing = NSLayoutConstraint(item: tableHeaderView!, attribute: .trailing, relatedBy: .equal, toItem: containerView, attribute: .trailing, multiplier: 1, constant: 0)
         containerView.addConstraints([top, leading, bottom, trailing])
         tableHeaderContainerView = containerView
         mainTableView.tableHeaderView = containerView
